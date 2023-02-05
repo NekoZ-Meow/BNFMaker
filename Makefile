@@ -1,16 +1,24 @@
 NPM = npm
 NPM_RUN = $(NPM) run
 PACKAGES = packages
+OUT_DIR = "$$(pwd)/docs"
 WORKSPACES = $(PACKAGES)/BNFMakerWeb $(PACKAGES)/HashedCollection $(PACKAGES)/SD2BNF
 
 all:
 	@
 
 web-build:
-	$(NPM_RUN) web-build -OUT="$$(pwd)/docs"
+	$(NPM_RUN) web-build -OUT=$(OUT_DIR)
 
-deploy:
-	if [ "$$(git status --short $(OUT_DIR))" = "" ];then echo "a" ;fi
+deploy:web-build
+	@if [ "$$(git status --short $(OUT_DIR))" != "" ];then \
+		touch $(OUT_DIR)/.nojekyll; \
+		git add $(OUT_DIR); \
+		echo -n please enter commit massage: ; \
+		read message; \
+		git commit -m "$${message}"; \
+		git push origin main; \
+	fi
 
 format:
 	$(NPM_RUN) format
