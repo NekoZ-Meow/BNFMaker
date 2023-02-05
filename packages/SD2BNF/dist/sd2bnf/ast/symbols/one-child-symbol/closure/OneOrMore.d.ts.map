@@ -1,0 +1,1 @@
+{"version":3,"file":"OneOrMore.d.ts","sourceRoot":"","sources":["../../../../../../src/sd2bnf/ast/symbols/one-child-symbol/closure/OneOrMore.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,iBAAiB,CAAC;AAC5C,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAEpC;;;GAGG;AACH,qBAAa,SAAU,SAAQ,OAAO;IAClC;;;OAGG;gBACgB,KAAK,EAAE,SAAS;CAGtC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"Node.d.ts","sourceRoot":"","sources":["../../../../../src/sd2bnf/ast/symbols/leaf-symbol/Node.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,cAAc,CAAC;AAE1C;;;GAGG;AACH,qBAAa,IAAK,SAAQ,UAAU;IAChC;;;OAGG;gBACS,IAAI,EAAE,MAAM;IAIxB;;;;OAIG;IACH,MAAM,CAAC,MAAM,EAAE,OAAO,GAAG,OAAO;IAOhC;;;OAGG;IACH,QAAQ,IAAI,MAAM;CAGrB"}

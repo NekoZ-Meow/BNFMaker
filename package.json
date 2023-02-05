@@ -1,0 +1,27 @@
+{
+    "name": "bnf-maker",
+    "version": "1.0.0",
+    "description": "An application that performs the conversion from syntax diagram to BNF.",
+    "scripts": {
+        "format": "prettier --write .",
+        "web-build": "npm run build --workspaces --if-present && npm run export -OUT=${npm_config_out} --workspace=bnf-maker-web"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/NekoZ-Meow/BNFMaker.git"
+    },
+    "author": "Kodai Okayama",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/NekoZ-Meow/BNFMaker/issues"
+    },
+    "homepage": "https://github.com/NekoZ-Meow/BNFMaker#readme",
+    "workspaces": [
+        "packages/HashedCollections",
+        "packages/SD2BNF",
+        "packages/BNFMakerWeb"
+    ],
+    "devDependencies": {
+        "typescript": "^4.9.5"
+    }
+}
