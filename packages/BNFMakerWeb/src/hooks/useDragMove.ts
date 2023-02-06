@@ -1,13 +1,18 @@
-import { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+    Dispatch, RefObject, SetStateAction, useCallback, useEffect, useRef, useState
+} from 'react';
 
-import useEvent from "@react-hook/event";
-
-import { MouseLeft } from "../constants/MouseButton";
+import { MouseLeft } from '../constants/MouseButton';
+import { Vector2 } from '../features/vector2/Vector2';
 
 type Props = {
-    onMouseDrag?: ((event: MouseEvent) => void) | undefined;
-    onMouseDown?: ((event: MouseEvent) => void) | undefined;
-    onMouseUp?: ((event: MouseEvent) => void) | undefined;
+    onMouseDrag?:
+        | (({ event, movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => void)
+        | undefined;
+    onMouseDown?: (({ event }: { event: MouseEvent | TouchEvent }) => void) | undefined;
+    onMouseUp?:
+        | (({ event, movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => void)
+        | undefined;
     draggable?: boolean;
 };
 
@@ -25,53 +30,99 @@ export const useDragMove = (
 ) => {
     const [isDraggable, setIsDraggable] = useState(draggable);
     const isMouseDown = useRef<boolean>(false);
+    const beforePositionRef = useRef<Vector2>(new Vector2(0, 0));
+
+    /**
+     * 現在の座標をイベントから取得する
+     */
+    const getCurrentPositionFromEvent = useCallback((event: MouseEvent | TouchEvent) => {
+        if (event instanceof MouseEvent) {
+            return new Vector2(event.screenX, event.screenY);
+        }
+        if (event instanceof TouchEvent) {
+            const touch = event.touches[0];
+            return new Vector2(touch.screenX, touch.screenY);
+        }
+    }, []);
+
+    /**
+     * イベントから座標の変化量
+     */
+    const getMovement = useCallback(
+        (event: MouseEvent | TouchEvent) => {
+            const currentPosition = getCurrentPositionFromEvent(event);
+            const beforePosition = beforePositionRef.current;
+            beforePositionRef.current = currentPosition;
+            return currentPosition.sub(beforePosition);
+        },
+        [getCurrentPositionFromEvent, beforePositionRef]
+    );
 
     /**
      * クリックまたはタッチしながらが移動した
      */
     useEffect(() => {
-        const handler = (event: MouseEvent) => {
+        const abortController = new AbortController();
+        const handler = (event: MouseEvent | TouchEvent) => {
             if (onMouseDrag !== undefined && isMouseDown.current && isDraggable) {
-                onMouseDrag(event);
+                onMouseDrag({
+                    event,
+                    movement: getMovement(event),
+                });
             }
         };
-        window.addEventListener("mousemove", handler);
-        //window.addEventListener("touchmove", handler);
+        window.addEventListener("mousemove", handler, {
+            signal: abortController.signal,
+        });
+        window.addEventListener("touchmove", handler, {
+            signal: abortController.signal,
+        });
         return () => {
-            window.removeEventListener("mousemove", handler);
-            //window.removeEventListener("touchmove", handler);
+            abortController.abort();
         };
-    }, [isDraggable, isMouseDown, onMouseDrag]);
+    }, [isDraggable, isMouseDown, onMouseDrag, getMovement]);
 
     /**
      * 左のマウスボタンが押されたまたはスクリーンがタッチされた
      */
-    useEvent(ref, "mousedown", (event) => {
-        if (event.button !== MouseLeft) return;
-        isMouseDown.current = true;
-        if (onMouseDown !== undefined) {
-            onMouseDown(event);
-        }
-    });
+    useEffect(() => {
+        const abortController = new AbortController();
+        const handler = (event: MouseEvent | TouchEvent) => {
+            if (event instanceof MouseEvent && event.button !== MouseLeft) return;
+            beforePositionRef.current = getCurrentPositionFromEvent(event);
+            isMouseDown.current = true;
+            if (onMouseDown !== undefined && isMouseDown.current) {
+                onMouseDown({
+                    event,
+                });
+            }
+        };
+        ref.current.addEventListener("mousedown", handler, { signal: abortController.signal });
+        ref.current.addEventListener("touchstart", handler, { signal: abortController.signal });
+
+        return () => {
+            abortController.abort();
+        };
+    }, [onMouseDown, getCurrentPositionFromEvent, ref, isMouseDown, beforePositionRef]);
 
     /**
      * 左クリックおよびタッチが解除された
      */
     useEffect(() => {
-        const handler = (event: MouseEvent) => {
-            event.preventDefault();
-            if (isMouseDown.current && onMouseUp !== undefined) {
-                onMouseUp(event);
-            }
+        const abortController = new AbortController();
+        const handler = (event: MouseEvent | TouchEvent) => {
+            // event.preventDefault();
             isMouseDown.current = false;
+            if (isMouseDown.current && onMouseUp !== undefined) {
+                onMouseUp({ event, movement: getMovement(event) });
+            }
         };
-        window.addEventListener("mouseup", handler);
-        //window.addEventListener("touchend", handler);
+        window.addEventListener("mouseup", handler, { signal: abortController.signal });
+        window.addEventListener("touchend", handler, { signal: abortController.signal });
         return () => {
-            window.removeEventListener("mouseup", handler);
-            //window.removeEventListener("touchend", handler);
+            abortController.abort();
         };
-    }, [isDraggable, isMouseDown, onMouseUp]);
+    }, [isDraggable, isMouseDown, onMouseUp, getMovement]);
 
     return <[boolean, Dispatch<SetStateAction<boolean>>]>[isDraggable, setIsDraggable];
 };

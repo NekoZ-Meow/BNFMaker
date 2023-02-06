@@ -1,11 +1,12 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
-import { ListItemText, MenuItem, MenuList } from "@mui/material";
+import { ListItemText, MenuItem, MenuList } from '@mui/material';
 
-import { useContextMenu } from "./useContextMenu";
+import { useContextMenu } from './useContextMenu';
 
 /**
  * 構文図式のコンテキストメニュー
+ * 現状は使用していない
  * @param diagramId 構文図式のID
  */
 export const useDiagramMenu = (diagramId: string) => {

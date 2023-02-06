@@ -1,19 +1,21 @@
-import { MutableRefObject } from "react";
-import { useRecoilCallback } from "recoil";
+import { MutableRefObject } from 'react';
+import { useRecoilCallback } from 'recoil';
 
-import { DiagramTabData } from "../../../constants/DataTransferFormat";
-import { useCommandDo } from "../../../features/command/useCommand";
-import { Vector2 } from "../../../features/vector2/Vector2";
-import { useClick } from "../../../hooks/useClick";
-import { useDragMove } from "../../../hooks/useDragMove";
-import { useDrop } from "../../../hooks/useDrop";
+import { DiagramTabData } from '../../../constants/DataTransferFormat';
+import { useCommandDo } from '../../../features/command/useCommand';
+import { Vector2 } from '../../../features/vector2/Vector2';
+import { useClick } from '../../../hooks/useClick';
+import { useDragMove } from '../../../hooks/useDragMove';
+import { useDrop } from '../../../hooks/useDrop';
+import { CurrentDiagramIdAtom } from '../../../recoil/diagram-editor/DiagramEditorState';
 import {
-    CreateDirectionModeSelectorFamily,
-    OffsetSelectorFamily,
-} from "../../../recoil/diagram/DiagramState";
-import { NavigationDirectionAtomFamily } from "../../../recoil/direction/NavigationDirectionState";
-import { useCreateNodeCommand } from "../../diagram-element/hooks/commands/useCreateElementCommand";
-import { useCreateDirectionCommand } from "../../direction/hooks/commands/useCreateDirectionCommand";
+    CreateDirectionModeSelectorFamily, OffsetSelectorFamily
+} from '../../../recoil/diagram/DiagramState';
+import { NavigationDirectionAtomFamily } from '../../../recoil/direction/NavigationDirectionState';
+import { useCreateNodeCommand } from '../../diagram-element/hooks/commands/useCreateElementCommand';
+import {
+    useCreateDirectionCommand
+} from '../../direction/hooks/commands/useCreateDirectionCommand';
 
 /**
  * 構文図式の状態を使用する
@@ -78,16 +80,23 @@ export const useDiagramState = (
     /**
      * ドロップされた
      */
-    const onDrop = (event: DragEvent) => {
-        const dataTransfer = event.dataTransfer;
+    const onDrop = useRecoilCallback(
+        ({ snapshot }) =>
+            async (event: DragEvent) => {
+                const dataTransfer = event.dataTransfer;
 
-        if (dataTransfer === null) return;
-        if (!dataTransfer.types.includes(DiagramTabData)) return;
-        event.preventDefault();
-        const position = new Vector2(event.offsetX, event.offsetY);
-        const bindSyntaxDiagramId = dataTransfer.getData(DiagramTabData);
-        commandDo(createNodeCommand(diagramId, bindSyntaxDiagramId, position));
-    };
+                if (dataTransfer === null) return;
+                if (!dataTransfer.types.includes(DiagramTabData)) return;
+                event.preventDefault();
+                const currentDiagramId = await snapshot.getPromise(CurrentDiagramIdAtom);
+                if (currentDiagramId === "") return;
+                const offset = await snapshot.getPromise(OffsetSelectorFamily(currentDiagramId));
+                const position = new Vector2(event.offsetX, event.offsetY).add(offset);
+                const bindSyntaxDiagramId = dataTransfer.getData(DiagramTabData);
+                commandDo(createNodeCommand(diagramId, bindSyntaxDiagramId, position));
+            },
+        [commandDo, createNodeCommand]
+    );
 
     const onDragOver = (event: DragEvent) => {
         const dataTransfer = event.dataTransfer;
@@ -108,10 +117,10 @@ export const useDiagramState = (
      */
     const onMouseDrag = useRecoilCallback(
         ({ set }) =>
-            (event: MouseEvent) => {
+            ({ movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
                 //event.preventDefault();
                 set(OffsetSelectorFamily(diagramId), (current) =>
-                    current.sub(new Vector2(event.movementX, event.movementY))
+                    current.sub(new Vector2(movement.x, movement.y))
                 );
             },
         [diagramId]

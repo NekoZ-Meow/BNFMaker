@@ -1,11 +1,13 @@
-import { MutableRefObject, useCallback, useRef } from "react";
-import { useRecoilCallback, useSetRecoilState } from "recoil";
+import { MutableRefObject, useCallback, useRef } from 'react';
+import { useRecoilCallback, useSetRecoilState } from 'recoil';
 
-import { useCommandDo } from "../../../features/command/useCommand";
-import { Vector2 } from "../../../features/vector2/Vector2";
-import { useDragMove } from "../../../hooks/useDragMove";
-import { DiagramElementPositionSelectorFamily } from "../../../recoil/diagram-element/DiagramElementState";
-import { useSetElementPositionCommand } from "./commands/useSetElementPositionCommand";
+import { useCommandDo } from '../../../features/command/useCommand';
+import { Vector2 } from '../../../features/vector2/Vector2';
+import { useDragMove } from '../../../hooks/useDragMove';
+import {
+    DiagramElementPositionSelectorFamily
+} from '../../../recoil/diagram-element/DiagramElementState';
+import { useSetElementPositionCommand } from './commands/useSetElementPositionCommand';
 
 /**
  * 構文図式の要素の移動を行うためのフック
@@ -24,10 +26,10 @@ export const useDiagramElementDragMove = (
      * マウスをドラッグした時、ノードを動かす
      */
     const onMouseDrag = useCallback(
-        async (event: MouseEvent) => {
+        async ({ movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
             //event.preventDefault();
 
-            setPosition((current) => current.add(new Vector2(event.movementX, event.movementY)));
+            setPosition((current) => current.add(new Vector2(movement.x, movement.y)));
             isDragged.current = true;
         },
         [setPosition]
@@ -38,7 +40,7 @@ export const useDiagramElementDragMove = (
      */
     const onMouseUp = useRecoilCallback(
         ({ snapshot }) =>
-            async (event: MouseEvent) => {
+            async ({ event, movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
                 if (!isDragged.current) return;
                 isDragged.current = false;
                 event.preventDefault();
@@ -47,7 +49,7 @@ export const useDiagramElementDragMove = (
                 );
                 commandDo(
                     await setPositionCommand(
-                        currentPosition.add(new Vector2(event.movementX, event.movementY))
+                        currentPosition.add(new Vector2(movement.x, movement.y))
                     )
                 );
             },
@@ -57,6 +59,6 @@ export const useDiagramElementDragMove = (
     useDragMove(elementRef, {
         onMouseDrag,
         onMouseUp,
-        onMouseDown: (event) => event.stopPropagation(),
+        onMouseDown: ({ event }) => event.stopPropagation(),
     });
 };

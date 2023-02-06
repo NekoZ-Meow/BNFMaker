@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
-import { useRecoilValue } from "recoil";
-import { useDragMove } from "../../hooks/useDragMove";
-import { GlobalThemeAtom } from "../../recoil/theme/GlobalTheme";
+import React, { useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+
+import { useDragMove } from '../../hooks/useDragMove';
+import { GlobalThemeAtom } from '../../recoil/theme/GlobalTheme';
 
 /**
  * RowResizableBoxの各要素を分割するための線
@@ -18,8 +19,8 @@ export const RowSeparateLine: React.FC<{
      * 線をドラッグした時大きさを変更する
      */
     useDragMove(separateLineRef, {
-        onMouseDrag: (event) => {
-            moveSeparateLine(event.movementX);
+        onMouseDrag: ({ movement }) => {
+            moveSeparateLine(movement.x);
         },
     });
 
