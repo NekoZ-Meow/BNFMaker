@@ -47,11 +47,7 @@ export const useDiagramElementDragMove = (
                 const currentPosition = await snapshot.getPromise(
                     DiagramElementPositionSelectorFamily(diagramElementId)
                 );
-                commandDo(
-                    await setPositionCommand(
-                        currentPosition.add(new Vector2(movement.x, movement.y))
-                    )
-                );
+                commandDo(await setPositionCommand(currentPosition.add(movement)));
             },
         [commandDo, diagramElementId, setPositionCommand]
     );

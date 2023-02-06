@@ -2,17 +2,17 @@
  * ノードの状態を使用するためのフック
  */
 
-import { MutableRefObject } from "react";
-import { useRecoilCallback, useSetRecoilState } from "recoil";
+import { MutableRefObject } from 'react';
+import { useRecoilCallback, useSetRecoilState } from 'recoil';
 
-import { useClick } from "../../../hooks/useClick";
-import { useHover } from "../../../hooks/useHover";
-import { CurrentSelectElementIdAtom } from "../../../recoil/diagram-editor/DiagramEditorState";
-import { ElementSelector } from "../../../recoil/diagram-element/DiagramElementState";
-import { DiagramSelectorFamily } from "../../../recoil/diagram/DiagramState";
-import { NavigationDirectionAtomFamily } from "../../../recoil/direction/NavigationDirectionState";
-import { NavigationDirectionType } from "../../../types/direction/DirectionType";
-import { useElementMenu } from "../../context-menu/hooks/useElementMenu";
+import { useClick } from '../../../hooks/useClick';
+import { useHover } from '../../../hooks/useHover';
+import { CurrentSelectElementIdAtom } from '../../../recoil/diagram-editor/DiagramEditorState';
+import { ElementSelector } from '../../../recoil/diagram-element/DiagramElementState';
+import { DiagramSelectorFamily } from '../../../recoil/diagram/DiagramState';
+import { NavigationDirectionAtomFamily } from '../../../recoil/direction/NavigationDirectionState';
+import { NavigationDirectionType } from '../../../types/direction/DirectionType';
+import { useElementMenu } from '../../context-menu/hooks/useElementMenu';
 
 /**
 /**
@@ -35,7 +35,7 @@ export const useElementControl = (
         onMouseRightClick: (event) => {
             open(event.pageX, event.pageY);
         },
-        onMouseLeftClick: (event) => {
+        onMouseLeftClick: (_) => {
             setCurrentSelectElementId(elementId);
         },
     });

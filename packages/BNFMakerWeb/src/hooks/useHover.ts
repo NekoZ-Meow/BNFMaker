@@ -1,10 +1,11 @@
-import useEvent from "@react-hook/event";
-import { Dispatch, RefObject, SetStateAction, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useState } from 'react';
+
+import useEvent from '@react-hook/event';
 
 type Props = {
-    onMouseEnter?: ((event: MouseEvent) => void) | undefined;
-    onMouseLeave?: ((event: MouseEvent) => void) | undefined;
-    onMouseMove?: ((event: MouseEvent) => void) | undefined;
+    onMouseEnter?: ((event: MouseEvent | TouchEvent) => void) | undefined;
+    onMouseLeave?: ((event: MouseEvent | TouchEvent) => void) | undefined;
+    onMouseMove?: ((event: MouseEvent | TouchEvent) => void) | undefined;
 };
 
 /**

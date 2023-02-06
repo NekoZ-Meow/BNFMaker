@@ -1,13 +1,12 @@
-import { RefObject } from "react";
-import { useRecoilCallback, useSetRecoilState } from "recoil";
+import { RefObject } from 'react';
+import { useRecoilCallback, useSetRecoilState } from 'recoil';
 
-import { Vector2 } from "../../../features/vector2/Vector2";
-import { useHover } from "../../../hooks/useHover";
+import { Vector2 } from '../../../features/vector2/Vector2';
+import { useHover } from '../../../hooks/useHover';
 import {
-    CurrentDiagramIdAtom,
-    CurrentDiagramMousePositionAtom,
-} from "../../../recoil/diagram-editor/DiagramEditorState";
-import { OffsetSelectorFamily } from "../../../recoil/diagram/DiagramState";
+    CurrentDiagramIdAtom, CurrentDiagramMousePositionAtom
+} from '../../../recoil/diagram-editor/DiagramEditorState';
+import { OffsetSelectorFamily } from '../../../recoil/diagram/DiagramState';
 
 /**
  * 構文図式を編集する領域のコントローラー
