@@ -118,10 +118,11 @@ export const useDragMove = (
         const abortController = new AbortController();
         const handler = (event: MouseEvent | TouchEvent) => {
             //event.preventDefault();
+            isMouseDown.current = false;
             if (isMouseDown.current && onMouseUp !== undefined) {
                 onMouseUp({ event, movement: getMovement(event) });
             }
-            isMouseDown.current = false;
+            //isMouseDown.current = false;
         };
         window.addEventListener("mouseup", handler, { signal: abortController.signal });
         window.addEventListener("touchend", handler, { signal: abortController.signal });
@@ -129,7 +130,7 @@ export const useDragMove = (
         return () => {
             abortController.abort();
         };
-    }, [isDraggable, isMouseDown, onMouseUp, getMovement]);
+    }, [isMouseDown, onMouseUp, getMovement]);
 
     return <[boolean, Dispatch<SetStateAction<boolean>>]>[isDraggable, setIsDraggable];
 };

@@ -68,7 +68,7 @@ export const useElementControl = (
     const onMouseEnter = useRecoilCallback(
         ({ snapshot, set }) =>
             async (event: MouseEvent) => {
-                // event.stopPropagation();
+                event.stopPropagation();
                 const { diagramId, canDirectionEnter } = await snapshot.getPromise(
                     ElementSelector(elementId)
                 );
@@ -90,7 +90,7 @@ export const useElementControl = (
     const onMouseLeave = useRecoilCallback(
         ({ snapshot, set }) =>
             async (event: MouseEvent) => {
-                // event.stopPropagation();
+                event.stopPropagation();
 
                 const { diagramId } = await snapshot.getPromise(ElementSelector(elementId));
                 const { createDirectionMode } = await snapshot.getPromise(
