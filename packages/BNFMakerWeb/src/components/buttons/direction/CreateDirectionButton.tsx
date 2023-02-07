@@ -24,7 +24,7 @@ export const CreateDirectionButton: React.FC<Props> = ({ elementId, elementRef }
         <g
             visibility={isVisible ? "visible" : "hidden"}
             style={{ pointerEvents: "visible" }}
-            transform={`translate(${size.x} ${size.y / 3 - 5.5})`}
+            transform={`translate(${size.x} ${size.y / 2 - 10})`}
         >
             <ForwardIcon
                 ref={ref}
@@ -35,6 +35,9 @@ export const CreateDirectionButton: React.FC<Props> = ({ elementId, elementRef }
                     border: 0,
                     strokeWidth: 0,
                     opacity: 0.5,
+                    textAlign: "center",
+                    margin: 0,
+                    padding: 0,
                 }}
             ></ForwardIcon>
         </g>

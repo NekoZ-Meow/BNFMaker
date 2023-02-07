@@ -1,13 +1,11 @@
-import { MutableRefObject, useCallback, useRef } from 'react';
-import { useRecoilCallback, useSetRecoilState } from 'recoil';
+import { MutableRefObject, useCallback, useRef } from "react";
+import { useRecoilCallback, useSetRecoilState } from "recoil";
 
-import { useCommandDo } from '../../../features/command/useCommand';
-import { Vector2 } from '../../../features/vector2/Vector2';
-import { useDragMove } from '../../../hooks/useDragMove';
-import {
-    DiagramElementPositionSelectorFamily
-} from '../../../recoil/diagram-element/DiagramElementState';
-import { useSetElementPositionCommand } from './commands/useSetElementPositionCommand';
+import { useCommandDo } from "../../../features/command/useCommand";
+import { Vector2 } from "../../../features/vector2/Vector2";
+import { useDragMove } from "../../../hooks/useDragMove";
+import { DiagramElementPositionSelectorFamily } from "../../../recoil/diagram-element/DiagramElementState";
+import { useSetElementPositionCommand } from "./commands/useSetElementPositionCommand";
 
 /**
  * 構文図式の要素の移動を行うためのフック
@@ -29,7 +27,7 @@ export const useDiagramElementDragMove = (
         async ({ movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
             //event.preventDefault();
 
-            setPosition((current) => current.add(new Vector2(movement.x, movement.y)));
+            setPosition((current) => current.add(movement));
             isDragged.current = true;
         },
         [setPosition]
@@ -55,6 +53,6 @@ export const useDiagramElementDragMove = (
     useDragMove(elementRef, {
         onMouseDrag,
         onMouseUp,
-        onMouseDown: ({ event }) => event.stopPropagation(),
+        onMouseDown: ({ event }) => event.stopImmediatePropagation(),
     });
 };

@@ -19,7 +19,6 @@ export const StartNode: React.FC<{ elementId: string }> = ({ elementId }) => {
     const elementRectRef = useRef(null);
     const position = useRecoilValue(DiagramElementPositionSelectorFamily(elementId));
     const size = useRecoilValue(DiagramElementSizeSelectorFamily(elementId));
-    const radius = size.div(2);
     const { menuElement } = useElementControl(elementId, elementContainerRef, elementRectRef);
     useDiagramElementDragMove(elementId, elementRectRef);
 
@@ -38,14 +37,7 @@ export const StartNode: React.FC<{ elementId: string }> = ({ elementId }) => {
 
             {/* Node Rectangle */}
             <g ref={elementRectRef}>
-                <ellipse
-                    cx={radius.x}
-                    cy={radius.y}
-                    rx={radius.x}
-                    ry={radius.y}
-                    width={size.x}
-                    height={size.y}
-                ></ellipse>
+                <path d={`M 0 0 l 0 ${size.y} l ${size.x} ${-Math.round(size.y / 2)}`}></path>
             </g>
             {menuElement}
         </g>

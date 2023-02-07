@@ -323,8 +323,8 @@ export const DiagramElementSizeSelectorFamily = selectorFamily<Vector2, string>(
             const kind = get(ElementKindSelectorFamily(elementId));
             if (kind === DiagramElementKind.End || kind === DiagramElementKind.Start) {
                 // 開始・終了記号の場合の大きさ
-                const outsideDiameter = elementTheme.elementSize * 2;
-                return new Vector2(outsideDiameter, outsideDiameter);
+                const size = elementTheme.elementSize * 1.2;
+                return new Vector2(size, size);
             }
 
             const elementName = get(DiagramElementNameSelectorFamily(elementId));
