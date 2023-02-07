@@ -4,4 +4,4 @@
 **/node_modules
 **/.next
 **/docs
-**/.d.ts
+**/*.d.ts
