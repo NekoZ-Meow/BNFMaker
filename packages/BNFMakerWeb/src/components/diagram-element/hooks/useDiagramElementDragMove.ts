@@ -40,7 +40,7 @@ export const useDiagramElementDragMove = (
             async ({ event, movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
                 if (!isDragged.current) return;
                 isDragged.current = false;
-                event.preventDefault();
+                //event.preventDefault();
                 const currentPosition = await snapshot.getPromise(
                     DiagramElementPositionSelectorFamily(diagramElementId)
                 );
