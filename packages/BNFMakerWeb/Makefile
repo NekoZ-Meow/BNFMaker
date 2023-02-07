@@ -15,7 +15,7 @@ NEXT_BUILD = build
 NEXT_START = start
 
 DEV_URL = http://localhost:3000
-#DEV_URL = http://192.168.11.2:3000
+#DEV_URL = http://172.20.58.121:3000
 #OPEN_APP_NAME = 'Google Chrome'
 #OPEN_APP_NAME = 'Safari'
 OPEN_APP_NAME = 'Firefox'

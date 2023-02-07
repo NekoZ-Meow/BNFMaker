@@ -52,6 +52,6 @@ export const useDiagramElementDragMove = (
     useDragMove(elementRef, {
         onMouseDrag,
         onMouseUp,
-        onMouseDown: ({ event }) => event.stopImmediatePropagation(),
+        onMouseDown: ({ event }) => event.stopPropagation(),
     });
 };

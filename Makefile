@@ -9,7 +9,7 @@ all:
 
 web-build:
 	$(NPM_RUN) web-build -OUT=$(OUT_DIR)
-	touch $(OUT_DIR)/.nojekyll; \
+	touch $(OUT_DIR)/.nojekyll;
 
 deploy:web-build
 	@if [ "$$(git status --short ./)" != "" ];then \

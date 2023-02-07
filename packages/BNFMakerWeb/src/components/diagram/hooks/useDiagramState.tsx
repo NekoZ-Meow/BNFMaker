@@ -118,9 +118,7 @@ export const useDiagramState = (
         ({ set }) =>
             ({ event, movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
                 event.stopPropagation();
-                set(OffsetSelectorFamily(diagramId), (current) =>
-                    current.sub(new Vector2(movement.x, movement.y))
-                );
+                set(OffsetSelectorFamily(diagramId), (current) => current.sub(movement));
             },
         [diagramId]
     );
