@@ -37,7 +37,7 @@ export const StartNode: React.FC<{ elementId: string }> = ({ elementId }) => {
 
             {/* Node Rectangle */}
             <g ref={elementRectRef}>
-                <path d={`M 0 0 l 0 ${size.y} l ${size.x} ${-Math.round(size.y / 2)}`}></path>
+                <path d={`M 0 0 l 0 ${size.y} l ${size.x} ${-size.y / 2}`}></path>
             </g>
             {menuElement}
         </g>

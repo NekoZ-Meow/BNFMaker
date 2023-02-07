@@ -24,9 +24,8 @@ export const useDiagramElementDragMove = (
      * マウスをドラッグした時、ノードを動かす
      */
     const onMouseDrag = useCallback(
-        async ({ movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
-            //event.preventDefault();
-
+        async ({ event, movement }: { event: MouseEvent | TouchEvent; movement: Vector2 }) => {
+            event.stopPropagation();
             setPosition((current) => current.add(movement));
             isDragged.current = true;
         },

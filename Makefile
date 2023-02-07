@@ -9,11 +9,11 @@ all:
 
 web-build:
 	$(NPM_RUN) web-build -OUT=$(OUT_DIR)
+	touch $(OUT_DIR)/.nojekyll; \
 
 deploy:web-build
-	@if [ "$$(git status --short $(OUT_DIR))" != "" ];then \
-		touch $(OUT_DIR)/.nojekyll; \
-		git add $(OUT_DIR); \
+	@if [ "$$(git status --short ./)" != "" ];then \
+		git add ./; \
 		echo -n please enter commit massage: ; \
 		read message; \
 		git commit -m "$${message}"; \

@@ -36,9 +36,7 @@ export const EndNode: React.FC<{ elementId: string }> = ({ elementId }) => {
             ></CreateDirectionButton>
             {/* Node Rectangle */}
             <g ref={elementRectRef}>
-                <path
-                    d={`M ${size.x} 0 l 0 ${size.y} l ${-size.x} ${-Math.round(size.y / 2)}`}
-                ></path>
+                <path d={`M ${size.x} 0 l 0 ${size.y} l ${-size.x} ${-size.y / 2}`}></path>
             </g>
             {menuElement}
         </g>
