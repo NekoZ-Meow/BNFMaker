@@ -118,8 +118,8 @@ export const useDragMove = (
         const abortController = new AbortController();
         const handler = (event: MouseEvent | TouchEvent) => {
             //event.preventDefault();
-            isMouseDown.current = false;
             if (isMouseDown.current && onMouseUp !== undefined) {
+                isMouseDown.current = false;
                 onMouseUp({ event, movement: getMovement(event) });
             }
             //isMouseDown.current = false;
