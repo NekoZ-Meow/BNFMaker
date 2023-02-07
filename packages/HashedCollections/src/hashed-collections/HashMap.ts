@@ -1,7 +1,7 @@
-import { Item, List } from 'linked-list';
+import { Item, List } from "linked-list";
 
-import { Hashable } from './Hashable';
-import { HashedCollection } from './HashedCollection';
+import { Hashable } from "./Hashable";
+import { HashedCollection } from "./HashedCollection";
 
 /**
  * HashMapで使用するLinkedListの要素を表すクラス

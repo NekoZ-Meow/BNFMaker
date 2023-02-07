@@ -1,5 +1,5 @@
-import { Hashable } from './Hashable';
-import { HashedCollection } from './HashedCollection';
+import { Hashable } from "./Hashable";
+import { HashedCollection } from "./HashedCollection";
 /**
  * ハッシュ値を用いた(チェイン法の)辞書の実装。順序は保証しない
  * jsの辞書を用いて誤魔化しています

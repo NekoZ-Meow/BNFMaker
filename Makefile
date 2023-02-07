@@ -11,7 +11,7 @@ web-build:
 	$(NPM_RUN) web-build -OUT=$(OUT_DIR)
 	touch $(OUT_DIR)/.nojekyll;
 
-deploy:web-build
+deploy:format web-build
 	@if [ "$$(git status --short ./)" != "" ];then \
 		git add ./; \
 		echo -n please enter commit massage: ; \

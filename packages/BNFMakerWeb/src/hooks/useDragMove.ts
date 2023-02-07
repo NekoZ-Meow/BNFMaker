@@ -1,9 +1,15 @@
 import {
-    Dispatch, RefObject, SetStateAction, useCallback, useEffect, useRef, useState
-} from 'react';
+    Dispatch,
+    RefObject,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 
-import { MouseLeft } from '../constants/MouseButton';
-import { Vector2 } from '../features/vector2/Vector2';
+import { MouseLeft } from "../constants/MouseButton";
+import { Vector2 } from "../features/vector2/Vector2";
 
 type Props = {
     onMouseDrag?:
@@ -111,7 +117,7 @@ export const useDragMove = (
     useEffect(() => {
         const abortController = new AbortController();
         const handler = (event: MouseEvent | TouchEvent) => {
-            // event.preventDefault();
+            event.preventDefault();
             if (isMouseDown.current && onMouseUp !== undefined) {
                 onMouseUp({ event, movement: getMovement(event) });
             }
@@ -119,6 +125,7 @@ export const useDragMove = (
         };
         window.addEventListener("mouseup", handler, { signal: abortController.signal });
         window.addEventListener("touchend", handler, { signal: abortController.signal });
+        window.addEventListener("touchcancel", handler, { signal: abortController.signal });
         return () => {
             abortController.abort();
         };

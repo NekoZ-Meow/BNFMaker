@@ -1,6 +1,6 @@
-import { Dispatch, RefObject, SetStateAction, useState } from 'react';
+import { Dispatch, RefObject, SetStateAction, useState } from "react";
 
-import useEvent from '@react-hook/event';
+import useEvent from "@react-hook/event";
 
 type Props = {
     onMouseEnter?: ((event: MouseEvent) => void) | undefined;
